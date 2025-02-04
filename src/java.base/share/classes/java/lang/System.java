@@ -2701,6 +2701,11 @@ public final class System {
             public String getLoaderNameID(ClassLoader loader) {
                 return loader != null ? loader.nameAndId() : "null";
             }
+
+            @Override
+            public boolean allowSecurityManager() {
+                return System.allowSecurityManager();
+            }
         });
     }
 }
