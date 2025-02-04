@@ -38,12 +38,15 @@ import jdk.test.lib.Platform;
 
 public class DockerfileConfig {
 
+    public static final String BASE_IMAGE_NAME = "jdk.test.docker.image.name";
+    public static final String BASE_IMAGE_VERSION = "jdk.test.docker.image.version";
+
     public static boolean isUbsan() {
         return Boolean.getBoolean("jdk.test.docker.image.isUbsan");
     }
 
     public static String getBaseImageName() {
-        String name = System.getProperty("jdk.test.docker.image.name");
+        String name = System.getProperty(BASE_IMAGE_NAME);
         if (name != null) {
             System.out.println("DockerfileConfig: using custom image name: " + name);
             return name;
@@ -62,7 +65,7 @@ public class DockerfileConfig {
     }
 
     public static String getBaseImageVersion() {
-        String version = System.getProperty("jdk.test.docker.image.version");
+        String version = System.getProperty(BASE_IMAGE_VERSION);
         if (version != null) {
             System.out.println("DockerfileConfig: using custom image version: " + version);
             return version;
