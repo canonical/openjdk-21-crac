@@ -57,13 +57,13 @@ jobs:
             gnu-arch: aarch64
             debian-arch: arm64
             debian-repository: https://httpredir.debian.org/debian/
-            debian-version: bullseye
+            debian-version: bookworm
             tolerate-sysroot-errors: false
           - target-cpu: arm
             gnu-arch: arm
             debian-arch: armhf
             debian-repository: https://httpredir.debian.org/debian/
-            debian-version: bullseye
+            debian-version: bookworm
             tolerate-sysroot-errors: false
             gnu-abi: eabihf
           #- target-cpu: s390x
