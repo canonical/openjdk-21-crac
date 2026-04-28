@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022, 2025, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -36,6 +36,7 @@ import jdk.internal.crac.Core;
 import jdk.internal.crac.JDKResource;
 
 abstract class UnixDispatcher extends NativeDispatcher {
+    private static final boolean SUPPORTS_PENDING_SIGNALS = NativeThread.supportPendingSignals();
 
     static class ResourceProxy implements JDKResource {
         @Override
@@ -56,34 +57,26 @@ abstract class UnixDispatcher extends NativeDispatcher {
 
     static ResourceProxy resourceProxy = new ResourceProxy();
 
+    @Override
     void close(FileDescriptor fd) throws IOException {
         close0(fd);
     }
 
-    void preClose(FileDescriptor fd) throws IOException {
-        boolean doPreclose = true;
-        synchronized (closeLock) {
-            if (forceNonDeferedClose) {
-                doPreclose = false;
-            }
-            if (doPreclose) {
-                ++closeCnt;
-            }
-        }
+    private void signalThreads(long reader, long writer) {
+        if (NativeThread.isNativeThread(reader))
+            NativeThread.signal(reader);
+        if (NativeThread.isNativeThread(writer))
+            NativeThread.signal(writer);
+    }
 
-        if (!doPreclose) {
-            return;
+    @Override
+    void implPreClose(FileDescriptor fd, long reader, long writer) throws IOException {
+        if (SUPPORTS_PENDING_SIGNALS) {
+            signalThreads(reader, writer);
         }
-
-        try {
-            preClose0(fd);
-        } finally {
-            synchronized (closeLock) {
-                closeCnt--;
-                if (forceNonDeferedClose && closeCnt == 0) {
-                    closeLock.notifyAll();
-                }
-            }
+        preClose0(fd);
+        if (!SUPPORTS_PENDING_SIGNALS) {
+            signalThreads(reader, writer);
         }
     }
 
@@ -116,7 +109,7 @@ abstract class UnixDispatcher extends NativeDispatcher {
 
     private static native void close0(FileDescriptor fd) throws IOException;
 
-    static native void preClose0(FileDescriptor fd) throws IOException;
+    private static native void preClose0(FileDescriptor fd) throws IOException;
 
     static native void init();
 
