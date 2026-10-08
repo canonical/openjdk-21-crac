@@ -99,6 +99,7 @@
 #define guarantee_with_errno(cond, msg) check_with_errno(guarantee, cond, msg)
 
 static jlong initial_time_count = 0;
+static jlong restore_time_count = 0;
 
 static int clock_tics_per_sec = 100;
 
@@ -1299,6 +1300,11 @@ void os::Posix::init(void) {
 
 void os::Posix::initialize_time_counters(void) {
   initial_time_count = javaTimeNanos();
+  restore_time_count = initial_time_count;
+}
+
+void os::Posix::reset_time_counters(void) {
+  restore_time_count = javaTimeNanos();
 }
 
 void os::Posix::init_2(void) {
@@ -1475,6 +1481,10 @@ double os::elapsedTime() {
 
 jlong os::elapsed_counter() {
   return os::javaTimeNanos() - initial_time_count;
+}
+
+jlong os::elapsed_counter_since_restore() {
+  return os::javaTimeNanos() - restore_time_count;
 }
 
 jlong os::elapsed_frequency() {
