@@ -23,7 +23,6 @@
 
 import jdk.test.lib.Container;
 import jdk.test.lib.containers.docker.Common;
-import jdk.test.lib.containers.docker.DockerTestUtils;
 import jdk.test.lib.crac.CracBuilder;
 import jdk.test.lib.crac.CracProcess;
 import jdk.test.lib.crac.CracTest;
@@ -58,10 +57,6 @@ public class TimedWaitingTest implements CracTest {
 
     @Override
     public void test() throws Exception {
-        if (!DockerTestUtils.canTestDocker()) {
-            return;
-        }
-
         String imageName = Common.imageName("timed-waiting");
 
         CracBuilder builder = new CracBuilder();

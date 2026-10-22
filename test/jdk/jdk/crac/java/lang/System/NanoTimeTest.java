@@ -25,7 +25,6 @@ import jdk.crac.*;
 import jdk.crac.management.CRaCMXBean;
 import jdk.test.lib.Container;
 import jdk.test.lib.containers.docker.Common;
-import jdk.test.lib.containers.docker.DockerTestUtils;
 import jdk.test.lib.crac.CracBuilder;
 import jdk.test.lib.crac.CracTest;
 import jdk.test.lib.crac.CracTestArg;
@@ -62,9 +61,6 @@ public class NanoTimeTest implements CracTest {
 
     @Override
     public void test() throws Exception {
-        if (!DockerTestUtils.canTestDocker()) {
-            return;
-        }
         CracBuilder builder = new CracBuilder();
         Path bootIdFile = Files.createTempFile("NanoTimeTest-", "-boot_id");
 
