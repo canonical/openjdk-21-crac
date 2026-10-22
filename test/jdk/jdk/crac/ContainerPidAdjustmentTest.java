@@ -38,6 +38,7 @@ import java.util.Arrays;
  * @summary The test checks that process PID is adjusted with the specified value, when checkpointing in a container. Default min PID value is 128.
  * @requires (os.family == "linux")
  * @library /test/lib
+ * @modules java.base/jdk.internal.platform:+open
  * @build ContainerPidAdjustmentTest
  * @run driver/timeout=120 jdk.test.lib.crac.CracTest  true   false  INF     true   128
  * @run driver/timeout=120 jdk.test.lib.crac.CracTest  true   true   1       false  1
