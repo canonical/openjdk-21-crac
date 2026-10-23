@@ -5,6 +5,7 @@
 # the backports; to be fixed separately)
 jdk/crac/Selector/wakeupByClose/Test.java linux-all
 jdk/crac/Selector/wakeupByTimeoutAfterRestore/Test.java linux-all
+jdk/crac/Selector/selectAndWakeupAfterRestore/Test.java linux-all
 jdk/crac/Selector/Test970/Test.java linux-all
 jdk/crac/Selector/keyAfterRestore/Test.java linux-all
 jdk/crac/ContainerPidAdjustmentTest.java linux-all
