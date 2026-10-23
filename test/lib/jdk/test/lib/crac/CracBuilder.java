@@ -272,6 +272,8 @@ public class CracBuilder {
     }
 
     private void prepareContainer() throws Exception {
+        DockerTestUtils.checkCanTestDocker();
+
         if (runContainerDirectly && null != containerSetupCommand) {
             fail("runContainerDirectly and containerSetupCommand cannot be used together.");
         }

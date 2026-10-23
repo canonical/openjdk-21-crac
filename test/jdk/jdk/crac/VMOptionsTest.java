@@ -35,6 +35,7 @@ import static jdk.test.lib.Asserts.assertEquals;
 /**
  * @test
  * @library /test/lib
+ * @modules java.base/jdk.internal.platform:+open
  * @build VMOptionsTest
  * @run driver jdk.test.lib.crac.CracTest
  * @requires (os.family == "linux")

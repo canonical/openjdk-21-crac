@@ -21,7 +21,6 @@
  * have any questions.
  */
 
-import jdk.test.lib.containers.docker.DockerTestUtils;
 import jdk.test.lib.crac.CracBuilder;
 import jdk.test.lib.crac.CracProcess;
 import jdk.test.lib.crac.CracTest;
@@ -38,6 +37,7 @@ import java.util.Arrays;
  * @summary The test checks that process PID is adjusted with the specified value, when checkpointing in a container. Default min PID value is 128.
  * @requires (os.family == "linux")
  * @library /test/lib
+ * @modules java.base/jdk.internal.platform:+open
  * @build ContainerPidAdjustmentTest
  * @run driver/timeout=120 jdk.test.lib.crac.CracTest  true   false  INF     true   128
  * @run driver/timeout=120 jdk.test.lib.crac.CracTest  true   true   1       false  1
@@ -79,9 +79,6 @@ public class ContainerPidAdjustmentTest implements CracTest {
 
     @Override
     public void test() throws Exception {
-        if (!DockerTestUtils.canTestDocker()) {
-            return;
-        }
         CracBuilder builder = new CracBuilder()
             .inDockerImage("pid-adjustment")
             .runContainerDirectly(runDirectly)
