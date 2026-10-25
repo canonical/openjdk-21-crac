@@ -2067,7 +2067,10 @@ class DatagramChannelImpl
 
         @Override
         protected FileDescriptor getFD() {
-            return fd;
+            // JDK 21 defers the close of a selector-registered channel: the
+            // FileDescriptor object is not invalidated when the fd is closed,
+            // so a closed channel must not be reported as an open resource.
+            return isOpen() ? fd : null;
         }
 
         @Override

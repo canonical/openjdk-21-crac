@@ -59,7 +59,7 @@ abstract class UnixDispatcher extends NativeDispatcher {
 
     @Override
     void close(FileDescriptor fd) throws IOException {
-        close0(fd);
+        closeAndMark(fd);
     }
 
     private void signalThreads(long reader, long writer) {
